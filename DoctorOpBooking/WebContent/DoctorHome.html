@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<link href="css/home.css" rel="stylesheet" type="text/css"  >
+<title>Doctor Home</title>
+</head>
+<body onload="appointmentList()">
+<script type="text/javascript" src="js/doctorOpjs.js" ></script>
+<div class="header">
+  <a href="#default" class="logo">Doctor Appointment</a>
+  <a href="#" >Role::<b><span> Doctor</span></b> </a> 
+  <div class="header-right">
+   <a href="#" >CustomerName:<b><span id="spid"></span></b> </a> 
+    <a href="addSlot.html" >Add Slot</a>
+    <a href="#" >SignOut</a>
+  </div>
+</div>
+<h2>Appointment List</h2>
+
+<script type="text/javascript">
+var sessiondata=JSON.parse(JSON.stringify(sessionStorage.getItem("email")));
+alert("Your Logging In : "+sessiondata);
+document.getElementById('spid').innerText=sessiondata;
+
+if(sessiondata===undefined ||sessiondata===null || sessiondata===''){
+	alert("Please Login Again");
+	window.location.assign("index.html");
+}
+</script>
+</body>
+</html>

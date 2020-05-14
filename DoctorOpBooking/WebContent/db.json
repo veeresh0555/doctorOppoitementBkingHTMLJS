@@ -1,0 +1,47 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "uname": "veeru",
+      "mobile": "987456987",
+      "email": "veeru@hcl.com",
+      "password": "pass123",
+      "role": "patient"
+    },
+    {
+      "id": 2,
+      "uname": "venkatesh",
+      "mobile": "9703569875",
+      "email": "venkat@hcl.com",
+      "password": "pass123",
+      "role": "doctor"
+    },
+    {
+      "fullname": "veeresh peraboina",
+      "email": "veeresh@hcl.com",
+      "password": "dl4t7pkn",
+      "mobileno": "9874563215",
+      "role": "doctor",
+      "id": 3
+    }
+  ],
+  "slots": [
+    {
+      "id": 1,
+      "demail": "venkat@gmail.com",
+      "date": "15-05-2020",
+      "time": "9:50AM",
+      "specialist": "ORTHO"
+    }
+  ],
+  "appointment": [
+    {
+      "id": 1,
+      "demail": "venkat@gmail.com",
+      "date": "15-05-2020",
+      "time": "9:50AM",
+      "specialist": "ORTHO",
+      "pemail": "veeru@hcl.com"
+    }
+  ]
+}
