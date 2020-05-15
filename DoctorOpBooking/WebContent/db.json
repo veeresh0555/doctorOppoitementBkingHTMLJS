@@ -23,6 +23,22 @@
       "mobileno": "9874563215",
       "role": "doctor",
       "id": 3
+    },
+    {
+      "fullname": "jhone",
+      "email": "jhone@hcl.com",
+      "password": "awrfyft9",
+      "mobileno": "9874563258",
+      "role": "doctor",
+      "id": 4
+    },
+    {
+      "fullname": "khon",
+      "email": "khon@hcl.com",
+      "password": "kvqcc1ui",
+      "mobileno": "9853657415",
+      "role": "doctor",
+      "id": 5
     }
   ],
   "slots": [
@@ -30,8 +46,15 @@
       "id": 1,
       "demail": "venkat@gmail.com",
       "date": "15-05-2020",
-      "time": "9:50AM",
+      "time": "9:50",
       "specialist": "ORTHO"
+    },
+    {
+      "demail": "khon@hcl.com",
+      "date": "2020-05-15",
+      "time": "13:00",
+      "specialist": "orthoo",
+      "id": 2
     }
   ],
   "appointment": [
@@ -39,9 +62,17 @@
       "id": 1,
       "demail": "venkat@gmail.com",
       "date": "15-05-2020",
-      "time": "9:50AM",
+      "time": "9:50",
       "specialist": "ORTHO",
       "pemail": "veeru@hcl.com"
+    },
+    {
+      "demail": "venkat@gmail.com",
+      "date": "15-05-2020",
+      "time": "9:50",
+      "specialist": "ORTHO",
+      "pemail": "veeru@hcl.com",
+      "id": 2
     }
   ]
 }

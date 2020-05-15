@@ -5,14 +5,14 @@
 <title>Patient Appointment Home</title>
 <link href="css/home.css" rel="stylesheet" type="text/css"  >
 </head>
-<body>
+<body onload="myAppoitement()">
 <script type="text/javascript" src="js/doctorOpjs.js" ></script>
 <div class="header">
-  <a href="#default" class="logo">Shopping Cart</a>
+  <a href="#default" class="logo">Doctor Appointment</a>
   <a href="#" >Role::<b><span> Patient</span></b> </a> 
   <div class="header-right">
    <a href="#" >CustomerName:<b><span id="spid"></span></b> </a> 
-    <a href="#" >SignOut</a>
+    <a href="index.html" >SignOut</a>
   </div>
 </div>
 <h2>My Appointments</h2>
@@ -23,7 +23,7 @@
 
 <script type="text/javascript">
 var sessiondata=JSON.parse(JSON.stringify(sessionStorage.getItem("email")));
-alert("Your Logging In : "+sessiondata);
+//alert("Your Logging In : "+sessiondata);
 document.getElementById('spid').innerText=sessiondata;
 
 if(sessiondata===undefined ||sessiondata===null || sessiondata===''){

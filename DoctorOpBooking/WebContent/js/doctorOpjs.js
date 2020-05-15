@@ -1,6 +1,7 @@
 //User Registration
 
 function addUser() {
+	alert("Enter AddUser.....");
 	debugger;
 	var role = document.getElementById("role").value;
     var fullName=document.getElementById("fullname").value; 
@@ -14,7 +15,7 @@ function addUser() {
     
    
     if (role == "-1") {
-    	alert("Please Enter Role");
+    	alert("Please Select Role");
     	name.focus();
     	return false;
     }
@@ -47,7 +48,7 @@ function addUser() {
     httpReq.onreadystatechange = function() {
         if(this.readyState ===4 && this.status === 201){ 
             console.log("response: "+this.response);
-            alert("User Register Successfully!!!")
+            alert("User Register Successfully! Password :"+password);
             window.location.assign("index.html");
         }
     }
@@ -56,6 +57,7 @@ function addUser() {
     httpReq.send(JSON.stringify(obj));
 }
 
+//User Login
 function userLogin(){
 	
 	debugger;
@@ -91,30 +93,34 @@ function userLogin(){
 	}
 	httpRequest.onreadystatechange = function() {
 		if (this.readyState === 4 && this.status === 200) {
+			debugger;
 			var data = JSON.parse(this.response);
-			console.log("data: "+data);
-			var role = data[0].role;
-			console.log(role);
+			
 			debugger;
 			var len = data.length;
 			if (len > 0) {
+				var role = data[0].role;
+				console.log(role);
 				if (role == 'patient') {
 					window.location.assign("PatientHome.html");
 				} else if (role == 'doctor') {
 					window.location.assign("DoctorHome.html");
 				} else {
-						 alert("Invalid Role Type");
-					  }
-		sessionStorage.setItem('email', emailId);
-		console.log("Before redirecting url");
+					alert("Invalid Role Type");
+				}
+			debugger;
+			console.log("Stringify: "+JSON.stringify(this.response));
+			console.log("JSONParse: "+JSON.parse(JSON.stringify(this.response)));
+			sessionStorage.setItem('email', emailId);
+			console.log("Before redirecting url");
 	    } else {
-	      alert("Invalid User");
+	      alert("Invalid Credentials");
 	    }
 	    }
 	    }
 	var url = "http://localhost:3000/users?email="+emailId+"&password="+password+"&role="+role;
 	console.log(url);
-	httpRequest.open("get", url, true);
+	httpRequest.open("GET", url, true);
 	httpRequest.send();	
 }
 
@@ -209,6 +215,7 @@ function availableSlots(){
 	        var bt1txt=document.createTextNode("Book Slot");
 	        bt1.addEventListener("click",function(){
 	        	alert("SlotBooking");
+	        	debugger;
 	        	var useremail=JSON.parse(JSON.stringify(sessionStorage.getItem("email")));
 	        	var data=this.parentElement.parentElement.cells;
 	        	console.log("data: "+data[0].innerHTML+" "+data[1].innerHTML+"  "+data[2].innerHTML+" "+data[3].innerHTML+" "+data[4].innerHTML);
@@ -372,6 +379,156 @@ function appointmentList(){
 	httpRequest.send();
 	
 
+	
+	
+}
+
+function addSlot(){
+	debugger;
+	var demail = document.getElementById("demail").value;
+    var date=document.getElementById("date").value; 
+    var time = document.getElementById("time").value; 
+    var specialist = document.getElementById("specialist").value;
+    var obj = {demail : demail, date : date, time:time, specialist:specialist};
+    console.log(obj);
+    var httpReq;
+    if(window.XMLHttpRequest) {
+        httpReq = new XMLHttpRequest();
+    }
+    else{
+        httpReq = new ActiveXObject("")
+    }
+    httpReq.onreadystatechange = function() {
+        if(this.readyState ===4 && this.status === 201){ 
+            alert("Slot Added Successfully");
+            window.location.assign("DoctorHome.html");
+        }
+    }
+    httpReq.open('POST', 'http://localhost:3000/slots', true);
+    httpReq.setRequestHeader("Content-type","application/json");
+    httpReq.send(JSON.stringify(obj));
+}
+
+//My Appoitements
+function myAppoitement(){
+
+	 var httpRequest;
+	    if (window.XMLHttpRequest) {
+	        httpRequest = new XMLHttpRequest()
+	    } else {
+	        httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+	    }
+	    httpRequest.onreadystatechange = function () {
+	        if (this.readyState === 4 && this.status == 200) {
+
+	            var tableEl = document.getElementsByTagName('table');
+	            if (tableEl[0] !== undefined) {
+	                tableEl[0].remove()
+	            }
+		var body = document.getElementsByTagName('body')[0];
+		var table = document.createElement('table');
+		table.setAttribute("id", "tab01");
+		
+	    var tbody = document.createElement('tbody');
+	    var thead = document.createElement('thead');
+	    var headTr = document.createElement('tr');
+	    
+	    var headTd1 = document.createElement('td');
+	    var headTd1text = document.createTextNode ("Id");
+	    headTd1.appendChild(headTd1text);
+	    
+	    var headTd2 = document.createElement('td');
+	    var headTd2text = document.createTextNode ("Demail");
+	    headTd2.appendChild(headTd2text);
+	    
+	    var headTd3 = document.createElement('td');
+	    var headTd3text = document.createTextNode("Date");
+	    headTd3.appendChild(headTd3text);
+
+	    var headTd4 = document.createElement('td');
+	    var headTd4text = document.createTextNode("Time");
+	    headTd4.appendChild(headTd4text);
+	    
+	    var headTd5 = document.createElement('td');
+	    var headTd5text = document.createTextNode("Specialist");
+	    headTd5.appendChild(headTd5text);
+	    
+	    
+	    var headTd6 = document.createElement('td');
+	    var headTd6text = document.createTextNode ("Pemail");
+	    headTd6.appendChild(headTd6text);
+
+	    headTr.appendChild(headTd1);
+	    headTr.appendChild(headTd2);
+	    headTr.appendChild(headTd3);
+	    headTr.appendChild(headTd4);
+	    headTr.appendChild(headTd5);
+	    headTr.appendChild(headTd6);
+	    thead.appendChild(headTr);
+	    
+	    var data = JSON.parse(this.response);
+	    var len = data.length;
+	    
+	    if(len > 0 ){
+	    for(var i=0; i<len;i++){
+	        var tbodyTr = document.createElement('tr');
+
+	        var td1 = document.createElement('td');
+	        var td1Text = document.createTextNode(data[i].id);
+	        td1.appendChild(td1Text);
+
+	        var td2 = document.createElement('td');
+	        var td2Text = document.createTextNode(data[i].demail);
+	        td2.appendChild(td2Text);
+
+	        var td3 = document.createElement('td');
+	        var td3Text = document.createTextNode(data[i].date);
+	        td3.appendChild(td3Text);
+	        
+	        var td4 = document.createElement('td');
+	        var td4Text = document.createTextNode(data[i].time);
+	        td4.appendChild(td4Text);
+
+	        var td5 = document.createElement('td');
+	        var td5Text = document.createTextNode(data[i].specialist);
+	        td5.appendChild(td5Text);
+	        
+	        var td6 = document.createElement('td');
+	        var td6Text = document.createTextNode(data[i].pemail);
+	        td6.appendChild(td6Text);
+	       
+	        tbodyTr.appendChild(td1);
+	        tbodyTr.appendChild(td2);
+	        tbodyTr.appendChild(td3);
+	        tbodyTr.appendChild(td4);
+	        tbodyTr.appendChild(td5);
+	        tbodyTr.appendChild(td6);
+	        tbody.appendChild(tbodyTr); 
+	    }
+	    }
+	    else{
+	        var data = document.createElement("h4");
+	        var noData = document.createTextNode("No data Found")
+	        data.appendChild(noData);
+	        tbody.appendChild(data);
+	    }
+	    table.appendChild(thead);
+	    table.appendChild(tbody);
+	    body.appendChild(table);
+  }
+  }
+	    
+	var pmailid=JSON.parse(JSON.stringify(sessionStorage.getItem("email")));
+	alert("Pmail-Id: "+pmailid);
+	console.log("patient Mail Id:  "+pmailid);
+	httpRequest.open("get", "http://localhost:3000/appointment?pmailid="+pmailid, true);
+	httpRequest.send();
+	
+
+	
+	
+
+	
 	
 	
 }
