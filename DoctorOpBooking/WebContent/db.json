@@ -39,6 +39,22 @@
       "mobileno": "9853657415",
       "role": "doctor",
       "id": 5
+    },
+    {
+      "fullname": "veeresh",
+      "email": "veeresh@dbs.com",
+      "password": "dgsvymvc",
+      "mobileno": "9874587451",
+      "role": "doctor",
+      "id": 6
+    },
+    {
+      "fullname": "ramu",
+      "email": "ramu@hcl.com",
+      "password": "b5zx659h",
+      "mobileno": "9874563254",
+      "role": "patient",
+      "id": 7
     }
   ],
   "slots": [
@@ -55,6 +71,48 @@
       "time": "13:00",
       "specialist": "orthoo",
       "id": 2
+    },
+    {
+      "demail": "radhan@hcl.com",
+      "date": "2020-05-16",
+      "time": "13:00",
+      "specialist": "eye",
+      "id": 3
+    },
+    {
+      "demail": "radhan@hcl.com",
+      "date": "2020-05-15",
+      "time": "16:00",
+      "specialist": "dentist",
+      "id": 4
+    },
+    {
+      "demail": "veeresh@dbs.com",
+      "date": "2020-05-15",
+      "time": "",
+      "specialist": "",
+      "id": 5
+    },
+    {
+      "demail": "veeresh@dbs.com",
+      "date": "2020-05-16",
+      "time": "17:50",
+      "specialist": "Ortho",
+      "id": 6
+    },
+    {
+      "demail": "venkat@hcl.com",
+      "date": "",
+      "time": "",
+      "specialist": "",
+      "id": 7
+    },
+    {
+      "demail": "venkat@hcl.com",
+      "date": "2020-05-18",
+      "time": "12:12",
+      "specialist": "Dentist",
+      "id": 8
     }
   ],
   "appointment": [
@@ -73,6 +131,38 @@
       "specialist": "ORTHO",
       "pemail": "veeru@hcl.com",
       "id": 2
+    },
+    {
+      "demail": "radhan@hcl.com",
+      "date": "2020-05-15",
+      "time": "16:00",
+      "specialist": "dentist",
+      "pemail": "patient@hcl.com",
+      "id": 3
+    },
+    {
+      "demail": "veeresh@dbs.com",
+      "date": "2020-05-16",
+      "time": "17:50",
+      "specialist": "Ortho",
+      "pemail": "ramu@hcl.com",
+      "id": 4
+    },
+    {
+      "demail": "veeresh@dbs.com",
+      "date": "2020-05-16",
+      "time": "17:50",
+      "specialist": "Ortho",
+      "pemail": "ramu@hcl.com",
+      "id": 5
+    },
+    {
+      "demail": "venkat@hcl.com",
+      "date": "2020-05-18",
+      "time": "12:12",
+      "specialist": "Dentist",
+      "pemail": "veeru@hcl.com",
+      "id": 6
     }
   ]
 }

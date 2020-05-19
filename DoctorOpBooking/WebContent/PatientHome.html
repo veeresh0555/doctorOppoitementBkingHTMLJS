@@ -8,18 +8,19 @@
 <body onload="availableSlots()">
 <script type="text/javascript" src="js/doctorOpjs.js" ></script>
 <div class="header">
-  <a href="#default" class="logo">Shopping Cart</a>
-  <a href="#" >Role::<b><span> Patient</span></b> </a> 
+  <a href="#default" class="logo">Doctor Appointment</a>
   <div class="header-right">
+  <a href="#" >Role::<b><span> Patient</span></b> </a> 
    <a href="#" >CustomerName:<b><span id="spid"></span></b> </a> 
-    <a href="#" >SignOut</a>
+    <a href="#" onclick="logout()" >SignOut</a>
   </div>
 </div>
 <h2>Available Slots</h2>
 <script type="text/javascript">
 var sessiondata=JSON.parse(JSON.stringify(sessionStorage.getItem("email")));
+var unamesession=JSON.parse(JSON.stringify(sessionStorage.getItem("uname")));
 alert("Your Logging In : "+sessiondata);
-document.getElementById('spid').innerText=sessiondata;
+document.getElementById('spid').innerText=unamesession;
 
 if(sessiondata===undefined ||sessiondata===null || sessiondata===''){
 	alert("Please Login Again");

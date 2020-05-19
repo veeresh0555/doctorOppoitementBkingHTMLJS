@@ -13,10 +13,11 @@
   <div class="header-right">
    <a href="#" >CustomerName:<b><span id="spid"></span></b> </a> 
     <a href="#" >Add Slot</a>
-    <a href="index.html" >SignOut</a>
+    <a href="#" onclick="logout()" >SignOut</a>
   </div>
 </div>
-<form onsubmit="addSlot()">
+
+<form onsubmit="return false">
 <div class="container">
      <h2>Add Slot</h2>
       <hr>
@@ -29,7 +30,7 @@
       <label for="specialist"><b>Specialist</b></label>
 	  <input type="text" id="specialist" name="specialist" required>
       <div class="clearfix">
-        <button type="submit" class="signupbtn">Add Slot</button>
+        <button type="submit" class="signupbtn" onclick="addSlot()" >Add Slot</button>
         <button type="button" onclick="history.back()" class="cancelbtn">Back</button>
       </div>
       </div>
@@ -39,7 +40,8 @@
 var sessiondata=JSON.parse(JSON.stringify(sessionStorage.getItem("email")));
 console.log("Your Logging In : "+sessiondata);
 document.getElementById('demail').value=sessiondata;
-document.getElementById('spid').innerText=sessiondata;
+var unamesession=JSON.parse(JSON.stringify(sessionStorage.getItem("uname")));
+document.getElementById('spid').innerText=unamesession;
 
 if(sessiondata===undefined ||sessiondata===null || sessiondata===''){
 	alert("Please Login Again");

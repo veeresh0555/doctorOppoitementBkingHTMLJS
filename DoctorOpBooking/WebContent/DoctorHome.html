@@ -9,20 +9,20 @@
 <script type="text/javascript" src="js/doctorOpjs.js" ></script>
 <div class="header">
   <a href="#default" class="logo">Doctor Appointment</a>
-  <a href="#" >Role::<b><span> Doctor</span></b> </a> 
   <div class="header-right">
+   <a href="#" >Role::<b><span> Doctor</span></b> </a> 
    <a href="#" >CustomerName:<b><span id="spid"></span></b> </a> 
     <a href="addSlot.html" >Add Slot</a>
-    <a href="index.html" >SignOut</a>
+  <a href="#" onclick="logout()" >SignOut</a>
   </div>
 </div>
 <h2>Appointment List</h2>
 
 <script type="text/javascript">
 var sessiondata=JSON.parse(JSON.stringify(sessionStorage.getItem("email")));
+var unamesession=JSON.parse(JSON.stringify(sessionStorage.getItem("uname")));
 alert("Your Logging In : "+sessiondata);
-document.getElementById('spid').innerText=sessiondata;
-
+document.getElementById('spid').innerText=unamesession;
 if(sessiondata===undefined ||sessiondata===null || sessiondata===''){
 	alert("Please Login Again");
 	window.location.assign("index.html");

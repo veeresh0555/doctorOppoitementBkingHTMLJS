@@ -9,22 +9,17 @@
 <script type="text/javascript" src="js/doctorOpjs.js" ></script>
 <div class="header">
   <a href="#default" class="logo">Doctor Appointment</a>
-  <a href="#" >Role::<b><span> Patient</span></b> </a> 
   <div class="header-right">
+   <a href="#" >Role::<b><span> Patient</span></b> </a> 
    <a href="#" >CustomerName:<b><span id="spid"></span></b> </a> 
     <a href="index.html" >SignOut</a>
   </div>
 </div>
 <h2>My Appointments</h2>
-<button onclick="history.back()">Back</button>
-
-
-
-
 <script type="text/javascript">
 var sessiondata=JSON.parse(JSON.stringify(sessionStorage.getItem("email")));
-//alert("Your Logging In : "+sessiondata);
-document.getElementById('spid').innerText=sessiondata;
+var unamesession=JSON.parse(JSON.stringify(sessionStorage.getItem("uname")));
+document.getElementById('spid').innerText=unamesession;
 
 if(sessiondata===undefined ||sessiondata===null || sessiondata===''){
 	alert("Please Login Again");
