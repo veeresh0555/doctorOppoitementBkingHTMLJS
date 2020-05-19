@@ -56,7 +56,6 @@ function addUser() {
 
 //User Login
 function userLogin(){
-	
 	debugger;
 	let emailId = document.getElementById("emailid").value;
 	let password = document.getElementById("pass").value;
@@ -88,8 +87,13 @@ function userLogin(){
 	} else {
 		httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
 	}
+	
+	return new Promise(function (resolve, reject) {
 	httpRequest.onreadystatechange = function() {
-		if (this.readyState === 4 && this.status === 200) {
+		if (this.readyState === 4 ) { //&& this.status === 200
+			 if (this.status != 200) {
+                 reject(" Login Failed! Response Code: " + this.status)
+             } else {
 			debugger;
 			let data = JSON.parse(this.response);
 			
@@ -117,10 +121,15 @@ function userLogin(){
 	    }
 	    }
 	    }
+	}
 	var url = "http://localhost:3000/users?email="+emailId+"&password="+password+"&role="+role;
 	console.log(url);
 	httpRequest.open("GET", url, true);
 	httpRequest.send();	
+	});//promise end 
+	
+	
+	
 }
 
 //Available Slots for patient
@@ -131,8 +140,12 @@ function availableSlots(){
 	    } else {
 	        httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
 	    }
+	    return new Promise(function (resolve, reject) { //promise Starts here ....>
 	    httpRequest.onreadystatechange = function () {
-	        if (this.readyState === 4 && this.status === 200) {
+	        if (this.readyState === 4 ) { //&& this.status === 200
+	        	 if (this.status != 200) {
+	                    reject("Available slots Not available ! Response Code:  " + this.status)
+	                } else {
 
 	            let tableEl = document.getElementsByTagName('table');
 	            if (tableEl[0] !== undefined) {
@@ -213,7 +226,7 @@ function availableSlots(){
 	        bt1.setAttribute("class", "ubutton");
 	        let bt1txt=document.createTextNode("Book Slot");
 	        bt1.addEventListener("click",function(){
-	        	alert("SlotBooking");
+	        	//alert("SlotBooking");
 	        	debugger;
 	        	let useremail=JSON.parse(JSON.stringify(sessionStorage.getItem("email")));
 	        	let data=this.parentElement.parentElement.cells;
@@ -260,11 +273,12 @@ function availableSlots(){
 	    table.appendChild(thead);
 	    table.appendChild(tbody);
 	    body.appendChild(table);
-    }
-    }
+	    }
+	    }
+	    }//else block
 	    httpRequest.open("get", "http://localhost:3000/slots", true);
 	    httpRequest.send();
-	
+	    });//end promise 
 }
 
 //Display list of appointment booked patient -Doctor
@@ -413,18 +427,25 @@ function addSlot(){
         httpReq = new XMLHttpRequest();
     }
     else{
-        httpReq = new ActiveXObject("")
+    	httpReq = new ActiveXObject("Microsoft.XMLHTTP");
     }
+    return new Promise(function (resolve, reject) {
     httpReq.onreadystatechange = function() {
-        if(this.readyState ===4 && this.status === 201){ 
+    	if (this.readyState === 4) {
+            if (this.status != 201) {
+                reject("Slot Not Added ! Error Response Code: " + this.status)
+            } else {
             alert("Slot Added Successfully");
             window.location.assign("DoctorHome.html");
         }
     }
+    }
     httpReq.open('POST', 'http://localhost:3000/slots', true);
     httpReq.setRequestHeader("Content-type","application/json");
     httpReq.send(JSON.stringify(obj));
+    });
 }
+    
 
 //Patient->List of Appointements
 function myAppoitement(){
@@ -435,9 +456,12 @@ function myAppoitement(){
 	    } else {
 	        httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
 	    }
+	    return new Promise(function (resolve, reject) {
 	    httpRequest.onreadystatechange = function () {
-	        if (this.readyState ===4 && this.status === 200) {
-
+	        if (this.readyState ===4) { // && this.status === 200
+	        	 if (this.status != 200) {
+	                    reject("My Appoitement list Not getting! Error Response Code: " + this.status)
+	                } else {
 	            let tableEl = document.getElementsByTagName('table');
 	            if (tableEl[0] != undefined) {
 	                tableEl[0].remove()
@@ -534,12 +558,14 @@ function myAppoitement(){
 	    body.appendChild(table);
   }
   }
-	    debugger;
+	    }
+	debugger;
 	const pmailid=JSON.parse(JSON.stringify(sessionStorage.getItem("email")));
-	alert("Pmail-Id: "+pmailid);
+	//alert("Pmail-Id: "+pmailid);
 	console.log("patient Mail Id:  "+pmailid);
 	httpRequest.open("get", "http://localhost:3000/appointment?pemail="+pmailid, true);
 	httpRequest.send();
+	    });//Promise ends here.....
 	}
 
 //Logout
