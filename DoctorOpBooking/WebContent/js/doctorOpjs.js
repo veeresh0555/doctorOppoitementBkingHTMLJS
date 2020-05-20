@@ -1,5 +1,5 @@
 //User Registration
-function addUser() {
+addUser=()=> {
 	debugger;
 	let role = document.getElementById("role").value;
     let fullName=document.getElementById("fullname").value; 
@@ -7,10 +7,8 @@ function addUser() {
     let mobileNo = document.getElementById("mobileno").value;
     let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     let pattern = "[A-Za-z0-9._%+-]*(@dbs.com|@hcl.com)";
-    
     let password = Math.random().toString(36).slice(-8);
     console.log(password);
-   
     if (role === "-1") {
     	alert("Please Select Role");
     	name.focus();
@@ -33,34 +31,43 @@ function addUser() {
     	return false;
     }
     
-    let obj = {fullname : fullName, email : email, password:password, mobileno:mobileNo, role:role};
+	//let obj = {fullname : fullName, email : email, password:password, mobileno:mobileNo, role:role};
+	let obj = {fullName,email,password, mobileNo, role};
     console.log(obj);
     let httpReq;
     if(window.XMLHttpRequest) {
         httpReq = new XMLHttpRequest();
     }
     else{
-        httpReq = new ActiveXObject("")
+    	httpReq = new ActiveXObject("Microsoft.XMLHTTP");
     }
+    return new Promise(function (resolve, reject) {
     httpReq.onreadystatechange = function() {
-        if(this.readyState ===4 && this.status === 201){ 
+    	if (this.readyState === 4) {
+            if (this.status != 201) {
+                reject("User Registration Failed! Error Response Code: " + this.status)
+            } else {
             console.log("response: "+this.response);
             alert("User Register Successfully! Password :"+password);
             window.location.assign("index.html");
         }
+    	}
     }
-    httpReq.open('post', 'http://localhost:3000/users', true);
+    
+    const url='http://localhost:3000/users';
+    
+    httpReq.open('POST',url , true);
     httpReq.setRequestHeader("Content-type","application/json");
     httpReq.send(JSON.stringify(obj));
+    });
 }
 
-//User Login
-function userLogin(){
+//User Login:User can able to login his valid credentials [email id ,password and role->doctor/patient]
+userLogin=()=>{
 	debugger;
 	let emailId = document.getElementById("emailid").value;
 	let password = document.getElementById("pass").value;
 	let role = document.getElementById("urole").value;
-	 
 	let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 	let pattern = "[A-Za-z0-9._%+-]*(@dbs.com|@hcl.com)";
 	 
@@ -79,7 +86,6 @@ function userLogin(){
 	role.focus();
 	return false;
 	}
-	
 	debugger;
 	let httpRequest;
 	if (window.XMLHttpRequest) {
@@ -87,7 +93,6 @@ function userLogin(){
 	} else {
 		httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
 	}
-	
 	return new Promise(function (resolve, reject) {
 	httpRequest.onreadystatechange = function() {
 		if (this.readyState === 4 ) { //&& this.status === 200
@@ -96,16 +101,15 @@ function userLogin(){
              } else {
 			debugger;
 			let data = JSON.parse(this.response);
-			
 			debugger;
 			let len = data.length;
 			if (len > 0) {
 				let role = data[0].role;
 				console.log(role);
 				if (role === 'patient') {
-					window.location.assign("PatientHome.html");
+					window.location.assign("patientHome.html");
 				} else if (role === 'doctor') {
-					window.location.assign("DoctorHome.html");
+					window.location.assign("doctorHome.html");
 				} else {
 					alert("Invalid Role Type");
 				}
@@ -122,18 +126,16 @@ function userLogin(){
 	    }
 	    }
 	}
-	var url = "http://localhost:3000/users?email="+emailId+"&password="+password+"&role="+role;
+	//var url = "http://localhost:3000/users?email="+emailId+"&password="+password+"&role="+role;
+	const url = `http://localhost:3000/users?email=${emailId}&password=${password}&role=${role}`;
 	console.log(url);
 	httpRequest.open("GET", url, true);
 	httpRequest.send();	
 	});//promise end 
 	
-	
-	
 }
-
-//Available Slots for patient
-function availableSlots(){
+//Available Slots for patient-> After patient login his able to see all availability of doctor added slots
+availableSlots=()=>{
 	 let httpRequest;
 	    if (window.XMLHttpRequest) {
 	        httpRequest = new XMLHttpRequest()
@@ -146,7 +148,6 @@ function availableSlots(){
 	        	 if (this.status != 200) {
 	                    reject("Available slots Not available ! Response Code:  " + this.status)
 	                } else {
-
 	            let tableEl = document.getElementsByTagName('table');
 	            if (tableEl[0] !== undefined) {
 	                tableEl[0].remove()
@@ -158,65 +159,49 @@ function availableSlots(){
 	    let tbody = document.createElement('tbody');
 	    let thead = document.createElement('thead');
 	    let headTr = document.createElement('tr');
-	    
-	    
 	    let headTd1 = document.createElement('td');
 	    let headTd1text = document.createTextNode ("Id");
 	    headTd1.appendChild(headTd1text);
-	    
 	    let headTd2 = document.createElement('td');
 	    let headTd2text = document.createTextNode ("Doctor Mail Id");
 	    headTd2.appendChild(headTd2text);
-	    
 	    let headTd3 = document.createElement('td');
 	    let headTd3text = document.createTextNode("Date");
 	    headTd3.appendChild(headTd3text);
-
 	    let headTd4 = document.createElement('td');
 	    let headTd4text = document.createTextNode("Time");
 	    headTd4.appendChild(headTd4text);
-	    
 	    let headTd5 = document.createElement('td');
 	    let headTd5text = document.createTextNode("Specialist");
 	    headTd5.appendChild(headTd5text);
-	    
-	    
 	    let headTd6 = document.createElement('td');
 	    let headTd6text = document.createTextNode ("Action");
 	    headTd6.appendChild(headTd6text);
-
 	    headTr.appendChild(headTd1);
 	    headTr.appendChild(headTd2);
 	    headTr.appendChild(headTd3);
 	    headTr.appendChild(headTd4);
 	    headTr.appendChild(headTd5);
 	    headTr.appendChild(headTd6);
-	    
 	    thead.appendChild(headTr);
-	    
 	    let data = JSON.parse(this.response);
 	    let len = data.length;
-	    
 	    if(len > 0 ){
-	    for(var i=0; i<len;i++){
+	    let i;
+	    for(i=0; i<len;i++){
 	        let tbodyTr = document.createElement('tr');
-
 	        let td1 = document.createElement('td');
 	        let td1Text = document.createTextNode(data[i].id);
 	        td1.appendChild(td1Text);
-
 	        let td2 = document.createElement('td');
 	        let td2Text = document.createTextNode(data[i].demail);
 	        td2.appendChild(td2Text);
-
 	        let td3 = document.createElement('td');
 	        let td3Text = document.createTextNode(data[i].date);
 	        td3.appendChild(td3Text);
-	        
 	        let td4 = document.createElement('td');
 	        let td4Text = document.createTextNode(data[i].time);
 	        td4.appendChild(td4Text);
-
 	        let td5 = document.createElement('td');
 	        let td5Text = document.createTextNode(data[i].specialist);
 	        td5.appendChild(td5Text);
@@ -226,33 +211,39 @@ function availableSlots(){
 	        bt1.setAttribute("class", "ubutton");
 	        let bt1txt=document.createTextNode("Book Slot");
 	        bt1.addEventListener("click",function(){
-	        	//alert("SlotBooking");
 	        	debugger;
 	        	let useremail=JSON.parse(JSON.stringify(sessionStorage.getItem("email")));
 	        	let data=this.parentElement.parentElement.cells;
 	        	console.log("data: "+data[0].innerHTML+" "+data[1].innerHTML+"  "+data[2].innerHTML+" "+data[3].innerHTML+" "+data[4].innerHTML);
-	        	let obj={demail:data[1].innerHTML ,date:data[2].innerHTML,time: data[3].innerHTML,specialist: data[4].innerHTML,pemail: useremail };
+	        	//let obj={demail:data[1].innerHTML ,date:data[2].innerHTML,time: data[3].innerHTML,specialist: data[4].innerHTML,pemail: useremail };
+	        	
+	        	let demail=data[1].innerHTML;
+	        	let date=data[2].innerHTML;
+	        	let time= data[3].innerHTML;
+	        	let specialist= data[4].innerHTML;
+	        	//Enhanced object
+	        	let obj={demail,date,time,specialist,useremail };
 	        	console.log("Object: "+obj);
 	        	 let httpReq;
 	        	    if(window.XMLHttpRequest) {
 	        	        httpReq = new XMLHttpRequest();
 	        	    }
 	        	    else{
-	        	        httpReq = new ActiveXObject("");
+	        	    	httpReq = new ActiveXObject("Microsoft.XMLHTTP");
 	        	    }
 	        	    httpReq.onreadystatechange = function() {
 	        	        if(this.readyState ===4 && this.status === 201){ 
 	        	            console.log("response: "+this.response);
 	        	            alert("Your Appoitement placed Successfully! ");
-	        	            window.location.assign("PatientAppoitements.html");
+	        	            window.location.assign("patientAppoitements.html");
 	        	        }
 	        	    }
-	        	    httpReq.open('post', 'http://localhost:3000/appointment', true);
+	        	    const url1='http://localhost:3000/appointment';
+	        	    httpReq.open('POST', url1, true);
 	        	    httpReq.setRequestHeader("Content-type","application/json");
 	        	    httpReq.send(JSON.stringify(obj));
 	        	
 	        })
-	        
 	        bt1.appendChild(bt1txt);
 	        td6.appendChild(bt1);
 	        tbodyTr.appendChild(td1);
@@ -276,21 +267,28 @@ function availableSlots(){
 	    }
 	    }
 	    }//else block
-	    httpRequest.open("get", "http://localhost:3000/slots", true);
+	    const url="http://localhost:3000/slots";
+	    
+	    httpRequest.open("GET",url, true);
 	    httpRequest.send();
 	    });//end promise 
 }
 
-//Display list of appointment booked patient -Doctor
-function appointmentList(){
-	 let httpRequest;
+//Display list of Appoitment booked patient -Doctor
+//This Appoitment list display to the doctor which are patients booked his Appoitment
+appointmentList=()=>{
+	let httpRequest;
 	    if (window.XMLHttpRequest) {
 	        httpRequest = new XMLHttpRequest()
 	    } else {
 	        httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
 	    }
+	    return new Promise(function (resolve, reject) {
 	    httpRequest.onreadystatechange = function () {
-	        if (this.readyState === 4 && this.status === 200) {
+	    	if (this.readyState === 4) {
+                if (this.status != 200) {
+                    reject("Appoitment Data Not Found ! Error Response Code:  " + this.status)
+                } else {
 
 	            let tableEl = document.getElementsByTagName('table');
 	            if (tableEl[0] != undefined) {
@@ -299,32 +297,24 @@ function appointmentList(){
 		let body = document.getElementsByTagName('body')[0];
 		let table = document.createElement('table');
 		table.setAttribute("id", "tab01");
-		
 	    let tbody = document.createElement('tbody');
 	    let thead = document.createElement('thead');
 	    let headTr = document.createElement('tr');
-	    
 	    let headTd1 = document.createElement('td');
 	    let headTd1text = document.createTextNode ("Id");
 	    headTd1.appendChild(headTd1text);
-	    
 	    let headTd2 = document.createElement('td');
 	    let headTd2text = document.createTextNode ("Doctor Email Id");
 	    headTd2.appendChild(headTd2text);
-	    
 	    let headTd3 = document.createElement('td');
 	    let headTd3text = document.createTextNode("Date");
 	    headTd3.appendChild(headTd3text);
-
 	    let headTd4 = document.createElement('td');
 	    let headTd4text = document.createTextNode("Time");
 	    headTd4.appendChild(headTd4text);
-	    
 	    let headTd5 = document.createElement('td');
 	    let headTd5text = document.createTextNode("Specialist");
 	    headTd5.appendChild(headTd5text);
-	    
-	    
 	    let headTd6 = document.createElement('td');
 	    let headTd6text = document.createTextNode ("patient Email Id");
 	    headTd6.appendChild(headTd6text);
@@ -339,31 +329,25 @@ function appointmentList(){
 	    
 	    let data = JSON.parse(this.response);
 	    let len = data.length;
-	    
 	    if(len > 0 ){
-	    for(var i=0; i<len;i++){
+	    	let i;
+	    	for(i=0; i<len;i++){
 	        let tbodyTr = document.createElement('tr');
-
 	        let td1 = document.createElement('td');
 	        let td1Text = document.createTextNode(data[i].id);
 	        td1.appendChild(td1Text);
-
 	        let td2 = document.createElement('td');
 	        let td2Text = document.createTextNode(data[i].demail);
 	        td2.appendChild(td2Text);
-
 	        let td3 = document.createElement('td');
 	        let td3Text = document.createTextNode(data[i].date);
 	        td3.appendChild(td3Text);
-	        
 	        let td4 = document.createElement('td');
 	        let td4Text = document.createTextNode(data[i].time);
 	        td4.appendChild(td4Text);
-
 	        let td5 = document.createElement('td');
 	        let td5Text = document.createTextNode(data[i].specialist);
 	        td5.appendChild(td5Text);
-	        
 	        let td6 = document.createElement('td');
 	        let td6Text = document.createTextNode(data[i].pemail);
 	        td6.appendChild(td6Text);
@@ -379,7 +363,7 @@ function appointmentList(){
 	    }
 	    else{
 	        let data = document.createElement("h4");
-	        let noData = document.createTextNode("No data Found")
+	        let noData = document.createTextNode("No Data Found")
 	        data.appendChild(noData);
 	        tbody.appendChild(data);
 	    }
@@ -388,15 +372,16 @@ function appointmentList(){
 	    body.appendChild(table);
    }
    }
-	httpRequest.open("get", "http://localhost:3000/appointment", true);
+	 }
+	    
+	const url="http://localhost:3000/appointment";
+	httpRequest.open("GET",url , true);
 	httpRequest.send();
-	
-
-	
-	
+ });
 }
 //Doctor-> Add slot 
-function addSlot(){
+//After doctor login,Add his availablity.
+addSlot=()=>{
 	debugger;
 	let demail = document.getElementById("demail").value;
     let date=document.getElementById("date").value; 
@@ -419,8 +404,8 @@ function addSlot(){
     	alert("Please Enter Specialist");
     	return false;
     }
-    
-    let obj = {demail : demail, date : date, time:time, specialist:specialist};
+    //Enahanced Object
+    let obj = {demail, date, time, specialist};
     console.log(obj);
     let httpReq;
     if(window.XMLHttpRequest) {
@@ -436,20 +421,19 @@ function addSlot(){
                 reject("Slot Not Added ! Error Response Code: " + this.status)
             } else {
             alert("Slot Added Successfully");
-            window.location.assign("DoctorHome.html");
+            window.location.assign("doctorHome.html");
         }
     }
     }
-    httpReq.open('POST', 'http://localhost:3000/slots', true);
+    const url='http://localhost:3000/slots';
+    httpReq.open('POST',url , true);
     httpReq.setRequestHeader("Content-type","application/json");
     httpReq.send(JSON.stringify(obj));
     });
 }
-    
 
 //Patient->List of Appointements
-function myAppoitement(){
-
+myAppoitement=()=>{
 	 let httpRequest;
 	    if (window.XMLHttpRequest) {
 	        httpRequest = new XMLHttpRequest()
@@ -469,32 +453,24 @@ function myAppoitement(){
 		let body = document.getElementsByTagName('body')[0];
 		let table = document.createElement('table');
 		table.setAttribute("id", "tab01");
-		
 	    let tbody = document.createElement('tbody');
 	    let thead = document.createElement('thead');
 	    let headTr = document.createElement('tr');
-	    
 	    let headTd1 = document.createElement('td');
 	    let headTd1text = document.createTextNode ("Id");
 	    headTd1.appendChild(headTd1text);
-	    
 	    let headTd2 = document.createElement('td');
 	    let headTd2text = document.createTextNode ("Doctor Email Id");
 	    headTd2.appendChild(headTd2text);
-	    
 	    let headTd3 = document.createElement('td');
 	    let headTd3text = document.createTextNode("Date");
 	    headTd3.appendChild(headTd3text);
-
 	    let headTd4 = document.createElement('td');
 	    let headTd4text = document.createTextNode("Time");
 	    headTd4.appendChild(headTd4text);
-	    
 	    let headTd5 = document.createElement('td');
 	    let headTd5text = document.createTextNode("Specialist");
 	    headTd5.appendChild(headTd5text);
-	    
-	    
 	    let headTd6 = document.createElement('td');
 	    let headTd6text = document.createTextNode ("patient Email Id");
 	    headTd6.appendChild(headTd6text);
@@ -506,34 +482,27 @@ function myAppoitement(){
 	    headTr.appendChild(headTd5);
 	    headTr.appendChild(headTd6);
 	    thead.appendChild(headTr);
-	    
 	    let data = JSON.parse(this.response);
 	    let len = data.length;
 	    
 	    if(len > 0 ){
 	    for(var i=0; i<len;i++){
 	        let tbodyTr = document.createElement('tr');
-
 	        let td1 = document.createElement('td');
 	        let td1Text = document.createTextNode(data[i].id);
 	        td1.appendChild(td1Text);
-
 	        let td2 = document.createElement('td');
 	        let td2Text = document.createTextNode(data[i].demail);
 	        td2.appendChild(td2Text);
-
 	        let td3 = document.createElement('td');
 	        let td3Text = document.createTextNode(data[i].date);
 	        td3.appendChild(td3Text);
-	        
 	        let td4 = document.createElement('td');
 	        let td4Text = document.createTextNode(data[i].time);
 	        td4.appendChild(td4Text);
-
 	        let td5 = document.createElement('td');
 	        let td5Text = document.createTextNode(data[i].specialist);
 	        td5.appendChild(td5Text);
-	        
 	        let td6 = document.createElement('td');
 	        let td6Text = document.createTextNode(data[i].pemail);
 	        td6.appendChild(td6Text);
@@ -549,27 +518,27 @@ function myAppoitement(){
 	    }
 	    else{
 	        let data = document.createElement("h4");
-	        let noData = document.createTextNode("No data Found")
+	        let noData = document.createTextNode("Appoitement Data Not Found")
 	        data.appendChild(noData);
 	        tbody.appendChild(data);
 	    }
 	    table.appendChild(thead);
 	    table.appendChild(tbody);
 	    body.appendChild(table);
-  }
-  }
-	    }
+	  }
+	  }
+	}
 	debugger;
 	const pmailid=JSON.parse(JSON.stringify(sessionStorage.getItem("email")));
-	//alert("Pmail-Id: "+pmailid);
 	console.log("patient Mail Id:  "+pmailid);
-	httpRequest.open("get", "http://localhost:3000/appointment?pemail="+pmailid, true);
+	const url = `http://localhost:3000/appointment?pemail=${pmailid}`;
+	httpRequest.open("GET", url , true);
 	httpRequest.send();
-	    });//Promise ends here.....
-	}
+	 });//Promise ends here.....
+ }
 
-//Logout
-function logout(){
+//Logout - > when user click on logout button user able to logout and clear session.
+logout=()=>{
 	sessionStorage.clear();
 	alert("Your Successfully Logout");
 	window.location.assign("index.html");
