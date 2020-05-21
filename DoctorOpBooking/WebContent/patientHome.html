@@ -6,7 +6,9 @@
 <link href="css/home.css" rel="stylesheet" type="text/css"  >
 </head>
 <body onload="availableSlots()">
-<script type="text/javascript" src="js/doctorOpjs.js" ></script>
+<script type="text/javascript" src="userjs/userscript.js" ></script>
+<script type="text/javascript" src="doctorjs/doctorscript.js" ></script>
+<script type="text/javascript" src="patientjs/patientscript.js" ></script>
 <div class="header">
   <a href="#default" class="logo">Doctor Appointment</a>
   <div class="header-right">
@@ -19,7 +21,7 @@
 <script type="text/javascript">
 var sessiondata=JSON.parse(JSON.stringify(sessionStorage.getItem("email")));
 var unamesession=JSON.parse(JSON.stringify(sessionStorage.getItem("uname")));
-alert("Your Logging In : "+sessiondata);
+//alert("Your Logging In : "+sessiondata);
 document.getElementById('spid').innerText=unamesession;
 
 if(sessiondata===undefined ||sessiondata===null || sessiondata===''){
